@@ -1,0 +1,21 @@
+version: "3.7"
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: todooo.db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: test
+    ports:
+      - "5432:5432"
+
+  app:
+    build:
+      context: .
+    environment:
+      DATABASE_URL: postgresql+psycopg2://postgres:test@db:5432/todooo.db
+    container_name: fastapi_app
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
